@@ -12,8 +12,6 @@ import (
 func getRoutes() http.Handler {
 	r := mux.NewRouter()
 	v1 := r.PathPrefix("/v1").Subrouter()
-	// GET localhost:8080/v1/echo/1?x-token=token-certo
-	// GET localhost:8080/v1/echo/2
 
 	public := v1.PathPrefix("/public").Subrouter()
 	public.Use(
@@ -26,13 +24,9 @@ func getRoutes() http.Handler {
 	user.Handle("/login", public_routes.NewAuthHandler("login")).Methods(http.MethodGet)
 	user.Handle("/validate", public_routes.NewAuthHandler("validate")).Methods(http.MethodGet)
 
-	// user.Handle("/signup", ).Methods(http.MethodPost)
-	// user.Handle("/logout", ).Methods(http.MethodPost)
-
 	echo := v1.PathPrefix("/echo").Subrouter()
 
 	echo.Use(
-		middlewares.DDOS,
 		middlewares.DDOS,
 	)
 
